@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Sheets Data</title>
+</head>
+<body>
+  <h1>Google Sheets Data</h1>
+  <h2>통계</h2>
+  <pre id="statsData"></pre>
+  <h2>챔피언통계</h2>
+  <pre id="championData"></pre>
+
+  <script>
+    // 통계 데이터 불러오기
+    fetch('stats.json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('statsData').textContent = JSON.stringify(data, null, 2);
+      });
+
+    // 챔피언통계 데이터 불러오기
+    fetch('champion.json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('championData').textContent = JSON.stringify(data, null, 2);
+      });
+  </script>
+</body>
+</html>
