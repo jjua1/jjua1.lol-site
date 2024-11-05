@@ -2,28 +2,56 @@
 <html>
 <head>
   <title>Google Sheets Data</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
   <h1>Google Sheets Data</h1>
   <h2>통계</h2>
-  <pre id="statsData"></pre>
+  <table id="statsTable"></table>
   <h2>챔피언통계</h2>
-  <pre id="championData"></pre>
+  <table id="championTable"></table>
 
   <script>
+    // 데이터 테이블 생성 함수
+    function createTable(data, tableId) {
+      var table = document.getElementById(tableId);
+      var header = table.createTHead();
+      var row = header.insertRow(0);
+      for (var key in data[0]) {
+        var cell = row.insertCell();
+        cell.outerHTML = '<th>' + key + '</th>';
+      }
+      for (var i = 0; i < data.length; i++) {
+        var row = table.insertRow();
+        for (var key in data[i]) {
+          var cell = row.insertCell();
+          cell.innerHTML = data[i][key];
+        }
+      }
+    }
+
     // 통계 데이터 불러오기
     fetch('stats.json')
       .then(response => response.json())
-      .then(data => {
-        document.getElementById('statsData').textContent = JSON.stringify(data, null, 2);
-      });
+      .then(data => createTable(data, 'statsTable'));
 
     // 챔피언통계 데이터 불러오기
     fetch('champion.json')
       .then(response => response.json())
-      .then(data => {
-        document.getElementById('championData').textContent = JSON.stringify(data, null, 2);
-      });
+      .then(data => createTable(data, 'championTable'));
   </script>
 </body>
 </html>
